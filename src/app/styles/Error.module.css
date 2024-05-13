@@ -1,0 +1,64 @@
+/*
+
+-----error----- 
+
+
+*/
+.error_page {
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.error_txt {
+  color: red;
+  font-size: var(--font-size-xsmall);
+  text-align: center;
+}
+.error_BtnBox {
+  width: 100%;
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.error_button {
+  width: 200px;
+  font-size: 24px;
+  color: var(--color-yellow);
+  border: 2px dashed var(--color-yellow);
+  border-radius: 10px;
+  box-shadow: 5px 5px 0 var(--color-yellow);
+  padding: 1rem;
+  margin: 0.5rem 0;
+}
+.error_button:active {
+  transform: translate(2px, 2px);
+  box-shadow: inset 3px 3px 3px var(--color-black);
+  transition-duration: 0.2s;
+  background: var(--color-yellow-80);
+}
+.error_title {
+  font-size: 36px;
+}
+.error_break {
+  display: inline-block;
+}
+
+@media screen and (min-width: 768px) {
+  .error_button {
+    font-size: 36px;
+  }
+  .error_title {
+    font-size: 48px;
+  }
+  .error_break {
+    display: none;
+  }
+}

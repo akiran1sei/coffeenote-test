@@ -1,0 +1,31 @@
+// // delete/multiple
+import connectDB from "../../../../utils/database";
+import { BeansModel } from "../../../../utils/schemaModels";
+import { NextResponse } from "next/server";
+
+//multiple消去
+
+export async function DELETE(req, res) {
+  try {
+    await connectDB();
+    const Request = await req.json();
+    // console.log(Request);
+
+    const multiple = await BeansModel.find({ _id: Request });
+
+    if (multiple) {
+      await BeansModel.deleteMany({ _id: Request });
+      return NextResponse.json({
+        message: "アイテム削除成功",
+        status: 200,
+      });
+    } else {
+      throw new Error();
+    }
+  } catch (err) {
+    return NextResponse.json({
+      message: "アイテム削除失敗/delete",
+      status: 500,
+    });
+  }
+}
