@@ -1,6 +1,5 @@
 "use client";
 import Head from "next/head";
-
 import dotenv from "dotenv";
 import { Select } from "@/app/components/molecules/Select/Select";
 import useSWR from "swr";
@@ -8,14 +7,12 @@ import useSWR from "swr";
 const SelectPage = () => {
   dotenv.config();
 
-  const { data, error } = useSWR(`/pages/api/readall`, fetcher, {
-    revalidate: 10,
+  const { data, error } = useSWR("/pages/api/readall", fetcher, {
+    revalidateOnFocus: true,
   });
 
   if (error) return <div>エラーが発生しました: {error.message}</div>;
   if (!data) return <div>データを取得中...</div>;
-
-  // revalidatePath(`${process.env.NEXT_PUBLIC_URL}/pages/select`);
 
   return (
     <>
@@ -27,14 +24,23 @@ const SelectPage = () => {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+
       <Select data={data} />
     </>
   );
 };
 
 const fetcher = async (url) => {
-  const response = await fetch(url);
-  return response.json();
+  const res = await fetch(url);
+  const data = await res.json();
+
+  if (res.headers.get("ETag")) {
+    setHeaders({
+      "If-None-Match": res.headers.get("ETag"),
+    });
+  }
+
+  return data;
 };
 
 export default SelectPage;

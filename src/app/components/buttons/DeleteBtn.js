@@ -20,6 +20,7 @@ export function DeleteBtn(context) {
               Accept: "application/json",
               "Content-Type": "application/json",
             },
+            cache: "no-store",
           }
         );
         const jsonData = await response.json();
