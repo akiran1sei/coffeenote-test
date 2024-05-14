@@ -7,8 +7,8 @@ import useSWR from "swr";
 const GroupPage = () => {
   dotenv.config();
 
-  const { data, error } = useSWR(`/pages/api/group/chioce`, fetcher, {
-    revalidate: 10,
+  const { data, error } = useSWR("/pages/api/group/chioce", fetcher, {
+    revalidateOnFocus: true,
   });
 
   if (error) return <div>エラーが発生しました: {error.message}</div>;
@@ -24,14 +24,23 @@ const GroupPage = () => {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+
       <Group data={data} />
     </>
   );
 };
 
 const fetcher = async (url) => {
-  const response = await fetch(url);
-  return response.json();
+  const res = await fetch(url);
+  const data = await res.json();
+
+  if (res.headers.get("ETag")) {
+    setHeaders({
+      "If-None-Match": res.headers.get("ETag"),
+    });
+  }
+
+  return data;
 };
 
 export default GroupPage;
